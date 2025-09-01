@@ -39,6 +39,7 @@ RUN \
 # Default Environment
 ARG NAME=snowfall-perforce
 ARG P4NAME=snowfall-main
+ARG P4TCP=1666
 ARG P4USER=admin
 ARG P4PASSWD=SnowfallGames!
 ARG P4CASE=-C0
@@ -48,6 +49,7 @@ ARG P4CHARSET=utf8
 ENV NAME=$NAME \
   P4NAME=$P4NAME \
   P4TCP=$P4TCP \
+  P4PORT=tcp:0.0.0.0:$P4TCP \
   P4USER=$P4USER \
   P4PASSWD=$P4PASSWD \
   P4CASE=$P4CASE \
