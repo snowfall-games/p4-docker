@@ -24,6 +24,7 @@ COPY files/restore.sh /usr/local/bin/restore.sh
 COPY files/setup.sh /usr/local/bin/setup.sh
 COPY files/init.sh /usr/local/bin/init.sh
 COPY files/latest_checkpoint.sh /usr/local/bin/latest_checkpoint.sh
+COPY files/unreal-typemap.txt /usr/local/bin/unreal-typemap.txt
 
 RUN \
   chmod +x /usr/local/bin/restore.sh && \
@@ -36,12 +37,12 @@ RUN \
 # --------------------------------------------------------------------------------
 
 # Default Environment
-ARG NAME=perforce-server
-ARG P4NAME=master
+ARG NAME=snowfall-perforce
+ARG P4NAME=snowfall-main
 ARG P4TCP=1666
 ARG P4USER=admin
-ARG P4PASSWD=pass12349ers
-ARG P4CASE=-C1
+ARG P4PASSWD=SnowfallGames!
+ARG P4CASE=-C0
 ARG P4CHARSET=utf8
 
 # Dynamic Environment
@@ -62,6 +63,11 @@ ENV P4HOME=/p4
 ENV P4ROOT=$P4HOME/root \
   P4DEPOTS=$P4HOME/depots \
   P4CKP=$P4HOME/checkpoints
+
+# Performance Environment for Game Development
+ENV P4JOURNAL=$P4CKP/journal \
+  P4LOG=$P4ROOT/logs/log \
+  P4FILESYS=NFS
 
 # Expose Perforce; TCP port and volumes
 EXPOSE $P4TCP

@@ -17,3 +17,6 @@ p4 configure set $P4NAME#server.depot.root=$P4DEPOTS
 p4 configure set $P4NAME#journalPrefix=$P4CKP/$JNL_PREFIX
 
 p4dctl start -t p4d "$NAME"
+
+# Configure Unreal Engine file types per Epic Games documentation
+p4 typemap -i < /usr/local/bin/unreal-typemap.txt
