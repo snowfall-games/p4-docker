@@ -10,7 +10,7 @@ mv /etc/perforce /etc/perforce.orig
 ln -s "$P4ROOT/etc" /etc/perforce
 
 if ! p4dctl list 2>/dev/null | grep -q "$NAME"; then
-    /opt/perforce/sbin/configure-helix-p4d.sh "$NAME" -n -p "$P4PORT" -r "$P4ROOT" -u "$P4USER" -P "${P4PASSWD}" --case "$P4CASE" --unicode
+    /opt/perforce/sbin/configure-helix-p4d.sh "$NAME" -n -r "$P4ROOT" -u "$P4USER" -P "${P4PASSWD}" --case "$P4CASE" --unicode
 fi
 
 p4 configure set $P4NAME#server.depot.root=$P4DEPOTS
