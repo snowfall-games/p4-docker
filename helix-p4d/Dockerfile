@@ -68,7 +68,6 @@ ENV P4ROOT=$P4HOME/root \
 
 # Expose Perforce; TCP port and volumes
 EXPOSE $P4TCP
-VOLUME $P4HOME
 
 # --------------------------------------------------------------------------------
 # Docker RUN
