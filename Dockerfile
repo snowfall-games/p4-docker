@@ -4,9 +4,6 @@
 
 FROM ubuntu:noble
 
-LABEL vendor="Sourcegraph"
-LABEL maintainer="Joe Chen (joe@sourcegraph.com)"
-
 # Update Ubuntu and add Perforce Package Source
 RUN apt-get update && \
   apt-get install -y wget gnupg2 && \
