@@ -6,15 +6,10 @@ FROM ubuntu:noble
 
 # Update Ubuntu and add Perforce Package Source
 RUN apt-get update && \
-  apt-get install -y wget gnupg2 net-tools && \
+  apt-get install -y wget gnupg2 && \
   wget -qO - https://package.perforce.com/perforce.pubkey | apt-key add - && \
   echo "deb http://package.perforce.com/apt/ubuntu noble release" > /etc/apt/sources.list.d/perforce.list && \
   apt-get update
-
-# Enable IPv6 support
-RUN echo 'net.ipv6.conf.all.disable_ipv6 = 0' >> /etc/sysctl.conf && \
-    echo 'net.ipv6.conf.default.disable_ipv6 = 0' >> /etc/sysctl.conf && \
-    echo 'net.ipv6.conf.lo.disable_ipv6 = 0' >> /etc/sysctl.conf
 
 # --------------------------------------------------------------------------------
 # Docker BUILD
@@ -54,7 +49,7 @@ ARG P4CHARSET=utf8
 ENV NAME=$NAME \
   P4NAME=$P4NAME \
   P4TCP=$P4TCP \
-  P4PORT=tcp6:[::]:$P4TCP \
+  P4PORT=$P4TCP \
   P4USER=$P4USER \
   P4PASSWD=$P4PASSWD \
   P4CASE=$P4CASE \

@@ -15,18 +15,8 @@ fi
 
 p4 configure set $P4NAME#server.depot.root=$P4DEPOTS
 p4 configure set $P4NAME#journalPrefix=$P4CKP/$JNL_PREFIX
-p4 configure set net.rfc3484=1
 
-# Verify P4PORT before starting
-echo "Configuring server with P4PORT: $P4PORT"
 p4dctl start -t p4d "$NAME"
-
-# Give the server time to bind to IPv6
-sleep 5
-
-# Check what the server is actually listening on
-echo "Checking server binding..."
-netstat -tlnp 2>/dev/null | grep 1666 || echo "No binding found on port 1666"
 
 # Configure Unreal Engine file types per Epic Games documentation
 p4 typemap -i < /usr/local/bin/unreal-typemap.txt
