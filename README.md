@@ -33,7 +33,7 @@ NAME=perforce-server
 P4HOME=/p4
 P4NAME=master
 P4TCP=1666
-P4PORT=1666
+P4PORT=tcp6:[::]:1666
 P4USER=admin
 P4PASSWD=pass12349ers
 P4CASE=-C0
@@ -89,6 +89,68 @@ docker run --rm \
     --env P4SSLDIR=/ssl \
     --volume ./ssl:/ssl \
     sourcegraph/helix-p4d:2023.1
+```
+
+### Running Perforce Helix with IPv6 support
+
+By default, the server is configured to bind to IPv6 addresses using the `tcp6` protocol. The server will listen on all available IPv6 interfaces (`[::]`) on port 1666.
+
+#### IPv6-only configuration (default)
+
+```bash
+docker run --rm \
+    --publish 1666:1666 \
+    sourcegraph/helix-p4d:2023.1
+```
+
+#### IPv4 and IPv6 dual-stack configuration
+
+To support both IPv4 and IPv6 clients, override the P4PORT to use `tcp64`:
+
+```bash
+docker run --rm \
+    --publish 1666:1666 \
+    --env P4PORT=tcp64:[::]:1666 \
+    sourcegraph/helix-p4d:2023.1
+```
+
+#### IPv4-only configuration
+
+To revert to IPv4-only mode:
+
+```bash
+docker run --rm \
+    --publish 1666:1666 \
+    --env P4PORT=tcp:1666 \
+    sourcegraph/helix-p4d:2023.1
+```
+
+#### IPv6 with SSL
+
+For encrypted communication over IPv6:
+
+```bash
+docker run --rm \
+    --publish 1666:1666 \
+    --env P4PORT=ssl6:[::]:1666 \
+    --env P4SSLDIR=/ssl \
+    --volume ./ssl:/ssl \
+    sourcegraph/helix-p4d:2023.1
+```
+
+#### Client configuration
+
+When connecting to an IPv6-enabled server, clients should use the appropriate P4PORT format:
+
+```bash
+# IPv6-only
+export P4PORT=tcp6:[::1]:1666
+
+# IPv4/IPv6 dual-stack (let OS choose)
+export P4PORT=tcp:localhost:1666
+
+# Specific IPv6 address
+export P4PORT=tcp6:[2001:db8::1]:1666
 ```
 
 ## Credits

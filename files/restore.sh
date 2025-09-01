@@ -32,4 +32,4 @@ p4d $P4CASE -r $P4ROOT "-cset ${P4NAME}#server.depot.root=${P4DEPOTS}"
 p4d $P4CASE -r $P4ROOT "-cset ${P4NAME}#journalPrefix=${P4CKP}/${JNL_PREFIX}"
 
 ## Start Perforce
-p4d $P4CASE -r$P4ROOT -p$P4TCP -L$P4LOG -J$P4JOURNAL -d
+p4d $P4CASE -r$P4ROOT -p$P4PORT -L$P4LOG -J$P4JOURNAL -d
