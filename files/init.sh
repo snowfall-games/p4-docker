@@ -34,7 +34,12 @@ $P4PASSWD
 EOF
 
 echo "Perforce Server starting..."
-until p4 info -s 2> /dev/null; do sleep 1; done
+# Wait longer for IPv6 binding to be ready
+sleep 3
+until p4 info -s 2> /dev/null; do 
+    echo "Waiting for server to accept connections..."
+    sleep 2
+done
 echo "Perforce Server [RUNNING]"
 
 ## Remove all triggers

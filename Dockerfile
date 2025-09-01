@@ -6,7 +6,7 @@ FROM ubuntu:noble
 
 # Update Ubuntu and add Perforce Package Source
 RUN apt-get update && \
-  apt-get install -y wget gnupg2 && \
+  apt-get install -y wget gnupg2 net-tools && \
   wget -qO - https://package.perforce.com/perforce.pubkey | apt-key add - && \
   echo "deb http://package.perforce.com/apt/ubuntu noble release" > /etc/apt/sources.list.d/perforce.list && \
   apt-get update
