@@ -20,11 +20,18 @@ p4dctl start -t p4d "$NAME"
 # Wait for server to be ready, then reconfigure for IPv6
 sleep 3
 echo "Reconfiguring server for IPv6 binding..."
-P4PORT="$P4TCP" P4USER="$P4USER" P4PASSWD="$P4PASSWD" p4 configure set $NAME#P4PORT="$P4PORT"
+
+# Login first, then configure
+P4PORT="$P4TCP" P4USER="$P4USER" p4 login <<EOF
+$P4PASSWD
+EOF
+
+# Now set the IPv6 configuration
+P4PORT="$P4TCP" P4USER="$P4USER" p4 configure set $NAME#P4PORT="$P4PORT"
 
 # Restart server with new IPv6 configuration
 p4dctl restart -t p4d "$NAME"
-sleep 2
+sleep 3
 
 p4 configure set $P4NAME#server.depot.root=$P4DEPOTS
 p4 configure set $P4NAME#journalPrefix=$P4CKP/$JNL_PREFIX
