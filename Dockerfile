@@ -24,7 +24,7 @@ COPY files/restore.sh /usr/local/bin/restore.sh
 COPY files/setup.sh /usr/local/bin/setup.sh
 COPY files/init.sh /usr/local/bin/init.sh
 COPY files/latest_checkpoint.sh /usr/local/bin/latest_checkpoint.sh
-COPY files/unreal-typemap.txt /usr/local/bin/unreal-typemap.txt
+COPY files/p4-typemap.txt /usr/local/bin/p4-typemap.txt
 
 RUN \
   chmod +x /usr/local/bin/restore.sh && \
