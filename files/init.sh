@@ -38,5 +38,6 @@ else
     echo "Perforce Server [RUNNING]"
 fi
 
-## Remove all triggers
-echo "Triggers:" | p4 triggers -i
+# Update typemap
+echo "Updating typemap..."
+p4 typemap -i < /usr/local/bin/p4-typemap.txt
