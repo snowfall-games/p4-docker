@@ -16,9 +16,9 @@ RUN apt-get update && \
 # --------------------------------------------------------------------------------
 
 # Create perforce user and install Perforce Server
-# Do in-page search over https://package.perforce.com/apt/ubuntu/dists/noble/release/binary-amd64/Packages
-# for both "Package: helix-p4d" and "Package: helix-swarm-triggers".
-RUN apt-get update && apt-get install -y helix-p4d helix-swarm-triggers
+# Note: helix-p4d has been replaced by p4-server
+# Installing latest available versions from the repository
+RUN apt-get update && apt-get install -y p4-server helix-swarm-triggers
 # Add external files
 COPY files/restore.sh /usr/local/bin/restore.sh
 COPY files/setup.sh /usr/local/bin/setup.sh
