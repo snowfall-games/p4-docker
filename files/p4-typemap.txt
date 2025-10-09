@@ -37,6 +37,7 @@ TypeMap:
     text //....inl
     text //....txt
     text //....md
+    text //....verse
     text+w //....vcproj
     text+w //....vcxproj
     text+w //....vcxproj.filters
