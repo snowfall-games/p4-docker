@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# Enable error handling and debugging
+# Enable error handling (but not debug mode to avoid stderr noise)
 set -e
-set -x
 
 echo "Starting setup.sh script..."
 
 if [ ! -d "$P4ROOT/etc" ]; then
-    echo >&2 "First time installation, copying configuration from /etc/perforce to $P4ROOT/etc and relinking"
+    echo "First time installation, copying configuration from /etc/perforce to $P4ROOT/etc and relinking"
     mkdir -p "$P4ROOT/etc"
     cp -r /etc/perforce/* "$P4ROOT/etc/"
 fi
@@ -29,10 +28,21 @@ fi
 
 # Start server with initial IPv4 configuration
 echo "Starting Perforce server..."
+
+
+# Try to start the server
 if ! p4dctl start -t p4d "$NAME"; then
     echo "ERROR: Failed to start Perforce server"
-    # Try to get more information about the failure
-    p4dctl status -t p4d "$NAME"
+    
+    # Show P4 logs if they exist
+    echo "=== P4 Server Logs ==="
+    if [ -f "$P4ROOT/logs/log" ]; then
+        echo "Last 50 lines of $P4ROOT/logs/log:"
+        tail -50 "$P4ROOT/logs/log"
+    else
+        echo "No log file found at $P4ROOT/logs/log"
+    fi
+    
     exit 1
 fi
 echo "Server started successfully"

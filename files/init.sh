@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Enable error handling and debugging
+# Enable error handling (but not debug mode to avoid stderr noise)
 set -e
-set -x
 
 echo "Perforce Server starting..."
 echo "Environment variables:"
@@ -32,31 +31,38 @@ else
 	/usr/local/bin/setup.sh
 fi
 
-# Wait for server to be accessible - try both IPv4 and IPv6
-echo "Waiting for server to start..."
-MAX_ATTEMPTS=30
-ATTEMPT=0
+# Check P4 logs after setup
+echo "=== P4 Server Logs After Setup ==="
+if [ -f "$P4ROOT/logs/log" ]; then
+    echo "Last 20 lines of P4 server log:"
+    tail -20 "$P4ROOT/logs/log"
+else
+    echo "No P4 log file found yet at $P4ROOT/logs/log"
+fi
 
-while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
-    # Try IPv6 first
-    if P4PORT="tcp6:[::]:$P4TCP" p4 info -s 2> /dev/null; then
-        echo "Perforce Server [RUNNING] on IPv6"
-        export P4PORT="tcp6:[::]:$P4TCP"
-        break
-    # Fallback to IPv4
-    elif P4PORT="$P4TCP" p4 info -s 2> /dev/null; then
-        echo "Perforce Server [RUNNING] on IPv4"
-        export P4PORT="$P4TCP"
-        break
+# Check if server is accessible
+echo "Checking if Perforce server is running..."
+
+# Try IPv6 first
+if P4PORT="tcp6:[::]:$P4TCP" p4 info -s 2> /dev/null; then
+    echo "Perforce Server [RUNNING] on IPv6"
+    export P4PORT="tcp6:[::]:$P4TCP"
+# Fallback to IPv4
+elif P4PORT="$P4TCP" p4 info -s 2> /dev/null; then
+    echo "Perforce Server [RUNNING] on IPv4"
+    export P4PORT="$P4TCP"
+else
+    echo "ERROR: Perforce server is not responding"
+    
+    # Show P4 server logs immediately
+    echo "=== P4 Server Logs ==="
+    if [ -f "$P4ROOT/logs/log" ]; then
+        echo "Full P4 server log:"
+        cat "$P4ROOT/logs/log"
+    else
+        echo "No P4 log file found at $P4ROOT/logs/log"
     fi
     
-    ATTEMPT=$((ATTEMPT + 1))
-    echo "Waiting for server... (attempt $ATTEMPT/$MAX_ATTEMPTS)"
-    sleep 2
-done
-
-if [ $ATTEMPT -eq $MAX_ATTEMPTS ]; then
-    echo "ERROR: Server failed to start after $MAX_ATTEMPTS attempts"
     exit 1
 fi
 
