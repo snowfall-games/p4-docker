@@ -61,25 +61,15 @@ else
     echo "Server started successfully"
 fi
 
-# Wait for server to be ready, then reconfigure for IPv6
+# Wait for server to be ready
 sleep 5
-echo "Reconfiguring server for IPv6 binding..."
 
-# Login first with IPv4 port
+# Login to configure server settings
+echo "Logging in and configuring server settings..."
 P4PORT="$P4PORT" P4USER="$P4USER" p4 login <<EOF
 $P4PASSWD
 EOF
 
-# Now set the IPv6 configuration - use the actual IPv6 address format
-P4PORT="$P4PORT" P4USER="$P4USER" p4 configure set $NAME#P4PORT="tcp6:[::]:$P4PORT"
-
-# Stop the server cleanly before restart
-p4dctl stop -t p4d "$NAME"
-sleep 2
-
-# Restart server with new IPv6 configuration
-p4dctl start -t p4d "$NAME"
-sleep 5
-
+# Configure server settings
 p4 configure set $P4NAME#server.depot.root=$P4DEPOTS
 p4 configure set $P4NAME#journalPrefix=$P4CKP/$JNL_PREFIX
