@@ -9,7 +9,7 @@ echo "P4HOME=$P4HOME"
 echo "P4ROOT=$P4ROOT"
 echo "P4DEPOTS=$P4DEPOTS"
 echo "P4CKP=$P4CKP"
-echo "P4TCP=$P4TCP"
+echo "P4PORT=$P4PORT"
 echo "P4USER=$P4USER"
 echo "NAME=$NAME"
 
@@ -41,13 +41,13 @@ fi
 echo "Checking if Perforce server is running..."
 
 # Try IPv6 first
-if P4PORT="tcp6:[::]:$P4TCP" p4 info -s 2> /dev/null; then
+if P4PORT="tcp6:[::]:$P4PORT" p4 info -s 2> /dev/null; then
     echo "Perforce Server [RUNNING] on IPv6"
-    export P4PORT="tcp6:[::]:$P4TCP"
+    export P4PORT="tcp6:[::]:$P4PORT"
 # Fallback to IPv4
-elif P4PORT="$P4TCP" p4 info -s 2> /dev/null; then
+elif P4PORT="$P4PORT" p4 info -s 2> /dev/null; then
     echo "Perforce Server [RUNNING] on IPv4"
-    export P4PORT="$P4TCP"
+    export P4PORT="$P4PORT"
 else
     echo "ERROR: Perforce server is not responding"
     

@@ -56,6 +56,9 @@ ENV NAME=$NAME \
   P4CHARSET=$P4CHARSET \
   JNL_PREFIX=$P4NAME
 
+# P4PORT can be set from Railway environment variable, defaults to P4TCP if not set
+ENV P4PORT=${P4PORT:-$P4TCP}
+
 # Base Environment
 ENV P4HOME=/p4
 
@@ -70,7 +73,7 @@ ENV P4JOURNAL=$P4CKP/journal \
   P4FILESYS=NFS
 
 # Expose Perforce; TCP port and volumes
-EXPOSE $P4TCP
+EXPOSE $P4PORT
 
 # --------------------------------------------------------------------------------
 # Docker RUN

@@ -17,7 +17,7 @@ ln -s "$P4ROOT/etc" /etc/perforce
 if ! p4dctl list 2>/dev/null | grep -q "$NAME"; then
     echo "Configuring new Perforce server: $NAME"
     # Use just the port number for initial configuration
-    if ! /opt/perforce/sbin/configure-helix-p4d.sh "$NAME" -n -p "$P4TCP" -r "$P4ROOT" -u "$P4USER" -P "${P4PASSWD}" --case "$P4CASE" --unicode; then
+    if ! /opt/perforce/sbin/configure-helix-p4d.sh "$NAME" -n -p "$P4PORT" -r "$P4ROOT" -u "$P4USER" -P "${P4PASSWD}" --case "$P4CASE" --unicode; then
         echo "ERROR: Failed to configure Perforce server"
         exit 1
     fi
@@ -78,12 +78,12 @@ sleep 5
 echo "Reconfiguring server for IPv6 binding..."
 
 # Login first with IPv4 port
-P4PORT="$P4TCP" P4USER="$P4USER" p4 login <<EOF
+P4PORT="$P4PORT" P4USER="$P4USER" p4 login <<EOF
 $P4PASSWD
 EOF
 
 # Now set the IPv6 configuration - use the actual IPv6 address format
-P4PORT="$P4TCP" P4USER="$P4USER" p4 configure set $NAME#P4PORT="tcp6:[::]:$P4TCP"
+P4PORT="$P4PORT" P4USER="$P4USER" p4 configure set $NAME#P4PORT="tcp6:[::]:$P4PORT"
 
 # Stop the server cleanly before restart
 p4dctl stop -t p4d "$NAME"
