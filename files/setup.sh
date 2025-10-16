@@ -28,7 +28,7 @@ fi
 
 # Install the Perforce license
 echo "Installing Perforce license..."
-ls "$P4ROOT"
+ls "$P4ROOT/root"
 
 echo "Source license file at /usr/local/bin/license:"
 if [ -f "/usr/local/bin/license" ]; then
