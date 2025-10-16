@@ -20,8 +20,6 @@ mkdir -p "$P4DEPOTS"
 mkdir -p "$P4CKP"
 mkdir -p "$P4ROOT/logs"
 
-# Ensure proper permissions for directories
-chmod -R 755 "$P4HOME"
 echo "Running Perforce server as root user in container"
 
 # Restore checkpoint if symlink latest exists
