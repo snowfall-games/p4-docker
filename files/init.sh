@@ -19,7 +19,8 @@ mkdir -p "$P4DEPOTS"
 mkdir -p "$P4CKP"
 mkdir -p "$P4ROOT/logs"
 
-echo "Running Perforce server as root user in container"
+echo "Valid license addresses..."
+p4 license -L
 
 # Restore checkpoint if symlink latest exists
 if [ -L "$P4CKP/latest" ]; then
