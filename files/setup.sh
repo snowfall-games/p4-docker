@@ -29,7 +29,7 @@ else
     echo "Server $NAME already configured"
 
     echo "Setting P4PORT to $P4PORT"
-    p4d -r "$P4ROOT" "-cset $NAME#P4PORT=$P4PORT"
+    p4d -r "$P4ROOT/root" "-cset $NAME#P4PORT=$P4PORT"
 
     echo "=== P4 Server Configuration ==="
     if [ -f "$P4ROOT/etc/p4dctl.conf.d/$NAME.conf" ]; then

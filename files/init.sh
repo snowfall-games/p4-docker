@@ -34,15 +34,9 @@ fi
 # Check if server is accessible
 echo "Checking if Perforce server is running..."
 
-# Extract just the port number from P4PORT
-PORT_NUM=$(echo "$P4PORT" | grep -oE '[0-9]+$')
-
-# Try IPv6 first
-if P4PORT="tcp6:[::]:$PORT_NUM" p4 info -s 2> /dev/null; then
-    echo "Perforce Server [RUNNING] on IPv6"
-# Fallback to IPv4
-elif P4PORT="$PORT_NUM" p4 info -s 2> /dev/null; then
-    echo "Perforce Server [RUNNING] on IPv4"
+# Check server using the configured P4PORT (with protocol prefix)
+if P4PORT="$P4PORT" p4 info -s 2> /dev/null; then
+    echo "Perforce Server [RUNNING] on $P4PORT"
 else
     echo "ERROR: Perforce server is not responding"
     
