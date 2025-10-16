@@ -31,9 +31,6 @@ echo "Installing Perforce license..."
 
 echo "Source license file at /usr/local/bin/license:"
 if [ -f "/usr/local/bin/license" ]; then
-    echo "License file at $P4ROOT/root/license:"
-    cat "$P4ROOT/root/license"
-    echo "Installing license file..."
     cp "/usr/local/bin/license" "$P4ROOT/root/license"
     echo "License file installed at $P4ROOT/root/license"
 else
@@ -42,7 +39,6 @@ fi
 
 echo "Showing license information..."
 p4d -V -r $P4ROOT
-
 
 # Start server with initial IPv4 configuration
 echo "Starting Perforce server..."
@@ -60,14 +56,6 @@ if ! p4dctl start -t p4d "$NAME"; then
         echo "No log file found at $P4ROOT/logs/log"
     fi
 
-    echo "=== P4 Server Configuration ==="
-    if [ -f "$P4ROOT/etc/p4dctl.conf.d/$NAME.conf" ]; then
-        echo "Perforce server config file ($P4ROOT/etc/p4dctl.conf.d/$NAME.conf):"
-        cat "$P4ROOT/etc/p4dctl.conf.d/$NAME.conf"
-    else
-        echo "No Perforce server config file found at $P4ROOT/etc/p4dctl.conf.d/$NAME.conf"
-    fi
-    
     exit 1
 else
     echo "Server started successfully"
