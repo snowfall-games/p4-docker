@@ -60,7 +60,7 @@ ENV NAME=$NAME \
 ENV P4HOME=/p4
 
 # Derived Environment
-ENV P4ROOT=$P4HOME \
+ENV P4ROOT=$P4HOME/root \
   P4DEPOTS=$P4HOME/depots \
   P4CKP=$P4HOME/checkpoints
 
