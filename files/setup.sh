@@ -23,17 +23,13 @@ if ! p4dctl list 2>/dev/null | grep -q "$NAME"; then
     fi
     echo "Server configuration completed successfully"
     
-    # Configure server to bypass licensing
-    echo "Configuring server to run without licensing..."
-    # Create empty license file to bypass licensing
-    touch "$P4ROOT/license"
-    # Set server ID to avoid licensing issues
-    echo "unlicensed-dev-server" > "$P4ROOT/server.id"
-    
-    # Modify p4dctl configuration to add -L flag for no licensing
-    if [ -f "/etc/perforce/p4dctl.conf.d/$NAME.conf" ]; then
-        echo "Adding no-license flag to p4dctl configuration..."
-        sed -i 's/^Flags=.*/& -L/' "/etc/perforce/p4dctl.conf.d/$NAME.conf" || true
+    # Install the Perforce license
+    echo "Installing Perforce license..."
+    if [ -f "/usr/local/bin/license" ]; then
+        cp "/usr/local/bin/license" "$P4ROOT/license"
+        echo "License file installed at $P4ROOT/license"
+    else
+        echo "WARNING: License file not found at /usr/local/bin/license"
     fi
 else
     echo "Server $NAME already configured"

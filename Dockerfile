@@ -25,6 +25,7 @@ COPY files/setup.sh /usr/local/bin/setup.sh
 COPY files/init.sh /usr/local/bin/init.sh
 COPY files/latest_checkpoint.sh /usr/local/bin/latest_checkpoint.sh
 COPY files/p4-typemap.txt /usr/local/bin/p4-typemap.txt
+COPY files/P4-p4-snowfall.railway.internal.license /usr/local/bin/license
 
 RUN \
   chmod +x /usr/local/bin/restore.sh && \
