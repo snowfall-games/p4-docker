@@ -22,22 +22,21 @@ if ! p4dctl list 2>/dev/null | grep -q "$NAME"; then
         exit 1
     fi
     echo "Server configuration completed successfully"
-    
-    # Install the Perforce license
-    echo "Installing Perforce license..."
-    if [ -f "/usr/local/bin/license" ]; then
-        cp "/usr/local/bin/license" "$P4ROOT/license"
-        echo "License file installed at $P4ROOT/license"
-    else
-        echo "WARNING: License file not found at /usr/local/bin/license"
-    fi
 else
     echo "Server $NAME already configured"
 fi
 
+# Install the Perforce license
+echo "Installing Perforce license..."
+if [ -f "/usr/local/bin/license" ]; then
+    cp "/usr/local/bin/license" "$P4ROOT/license"
+    echo "License file installed at $P4ROOT/license"
+else
+    echo "WARNING: License file not found at /usr/local/bin/license"
+fi
+
 # Start server with initial IPv4 configuration
 echo "Starting Perforce server..."
-
 
 # Try to start the server
 if ! p4dctl start -t p4d "$NAME"; then
