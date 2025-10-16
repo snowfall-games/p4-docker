@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# Enable error handling and debugging
+set -e
+set -x
+
+echo "Perforce Server starting..."
+echo "Environment variables:"
+echo "P4HOME=$P4HOME"
+echo "P4ROOT=$P4ROOT"
+echo "P4DEPOTS=$P4DEPOTS"
+echo "P4CKP=$P4CKP"
+echo "P4TCP=$P4TCP"
+echo "P4USER=$P4USER"
+echo "NAME=$NAME"
+
 # Setup directories with proper permissions
 mkdir -p "$P4ROOT"
 mkdir -p "$P4DEPOTS"
@@ -13,18 +27,12 @@ chmod -R 755 "$P4HOME"
 # Restore checkpoint if symlink latest exists
 if [ -L "$P4CKP/latest" ]; then
     echo "Restoring checkpoint..."
-	restore.sh
+	/usr/local/bin/restore.sh
 	rm "$P4CKP/latest"
 else
 	echo "Create empty or start existing server..."
-	setup.sh
+	/usr/local/bin/setup.sh
 fi
-
-p4 login <<EOF
-$P4PASSWD
-EOF
-
-echo "Perforce Server starting..."
 
 # Wait for server to be accessible - try both IPv4 and IPv6
 echo "Waiting for server to start..."
@@ -54,6 +62,14 @@ if [ $ATTEMPT -eq $MAX_ATTEMPTS ]; then
     exit 1
 fi
 
+# Now that server is running, login
+echo "Logging in to Perforce server..."
+p4 login <<EOF
+$P4PASSWD
+EOF
+
 # Update typemap
 echo "Updating typemap..."
 p4 typemap -i < /usr/local/bin/p4-typemap.txt
+
+echo "Perforce server initialization completed successfully!"

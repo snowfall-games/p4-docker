@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Enable error handling and debugging
+set -e
+set -x
+
+echo "Starting setup.sh script..."
+
 if [ ! -d "$P4ROOT/etc" ]; then
     echo >&2 "First time installation, copying configuration from /etc/perforce to $P4ROOT/etc and relinking"
     mkdir -p "$P4ROOT/etc"

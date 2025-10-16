@@ -76,7 +76,7 @@ EXPOSE $P4TCP
 # --------------------------------------------------------------------------------
 
 ENTRYPOINT \
-  init.sh && \
+  /usr/local/bin/init.sh && \
   /usr/bin/tail -F $P4ROOT/logs/log
 
 HEALTHCHECK \
