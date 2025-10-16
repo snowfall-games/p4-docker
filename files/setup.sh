@@ -27,9 +27,12 @@ if ! p4dctl list 2>/dev/null | grep -q "$NAME"; then
     echo "Server configuration completed successfully"
 else
     echo "Server $NAME already configured"
-    
+
     echo "Setting P4PORT to $P4PORT"
     p4d -r "$P4ROOT" "-cset $NAME#P4PORT=$P4PORT"
+
+    echo "Server Configuration:"
+    p4d -V -r $P4ROOT -cshow
 fi
 
 # Install the Perforce license
