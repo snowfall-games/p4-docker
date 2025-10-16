@@ -41,23 +41,22 @@ p4d -V -r $P4ROOT
 
 # Start server with initial IPv4 configuration
 echo "Starting Perforce server..."
-p4d -V -r $P4ROOT -p $P4TCP -L $P4LOG -J $P4JOURNAL -d
 
-# # Try to start the server
-# if ! p4dctl start -t p4d "$NAME"; then
-#     echo "ERROR: Failed to start Perforce server"
+# Try to start the server
+if ! p4dctl start -t p4d "$NAME"; then
+    echo "ERROR: Failed to start Perforce server"
     
-#     # Show P4 logs if they exist
-#     echo "=== P4 Server Logs ==="
-#     if [ -f "$P4ROOT/logs/log" ]; then
-#         echo "Last 20 lines of $P4ROOT/logs/log:"
-#         tail -20 "$P4ROOT/logs/log"
-#     else
-#         echo "No log file found at $P4ROOT/logs/log"
-#     fi
+    # Show P4 logs if they exist
+    echo "=== P4 Server Logs ==="
+    if [ -f "$P4ROOT/logs/log" ]; then
+        echo "Last 20 lines of $P4ROOT/logs/log:"
+        tail -20 "$P4ROOT/logs/log"
+    else
+        echo "No log file found at $P4ROOT/logs/log"
+    fi
     
-#     exit 1
-# fi
+    exit 1
+fi
 echo "Server started successfully"
 
 # Wait for server to be ready, then reconfigure for IPv6
