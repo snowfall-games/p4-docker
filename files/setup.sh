@@ -35,6 +35,9 @@ else
     echo "WARNING: License file not found at /usr/local/bin/license"
 fi
 
+echo "Showing license information..."
+p4d -V -r $P4ROOT
+
 # Start server with initial IPv4 configuration
 echo "Starting Perforce server..."
 
