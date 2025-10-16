@@ -19,8 +19,13 @@ mkdir -p "$P4DEPOTS"
 mkdir -p "$P4CKP"
 mkdir -p "$P4ROOT/logs"
 
-echo "Valid license addresses..."
-p4 license -L
+echo "Network interface information..."
+echo "IPv4 addresses:"
+ip -4 addr show | grep -oP '(?<=inet\s)\d+(\.\d+){3}' || ifconfig | grep -E 'inet [0-9]' | awk '{print $2}' | grep -v '127.0.0.1'
+echo "IPv6 addresses:"
+ip -6 addr show | grep -oP '(?<=inet6\s)[0-9a-f:]+' || ifconfig | grep -E 'inet6 [0-9a-f:]' | awk '{print $2}' | grep -v '::1'
+echo "MAC addresses:"
+ip link show | grep -oP '(?<=link/ether\s)[0-9a-f:]{17}' || ifconfig | grep -oE '([0-9a-f]{2}:){5}[0-9a-f]{2}'
 
 # Restore checkpoint if symlink latest exists
 if [ -L "$P4CKP/latest" ]; then
