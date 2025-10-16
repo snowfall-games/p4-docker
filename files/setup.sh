@@ -17,7 +17,7 @@ ln -s "$P4ROOT/etc" /etc/perforce
 if ! p4dctl list 2>/dev/null | grep -q "$NAME"; then
     echo "Configuring new Perforce server: $NAME"
     # Use just the port number for initial configuration
-    if ! /opt/perforce/sbin/configure-helix-p4d.sh "$NAME" -n -p "$P4PORT" -r "$P4ROOT" -u "$P4USER" -P "${P4PASSWD}" --case "$P4CASE" --unicode; then
+    if ! /opt/perforce/sbin/configure-helix-p4d.sh "$NAME" -n -p "$P4PORT" -r "$P4ROOT" -u "$P4USER" -P "${P4PASSWD}" --case "$P4CASE" --utf8; then
         echo "ERROR: Failed to configure Perforce server"
         exit 1
     fi
@@ -41,7 +41,7 @@ echo "Showing license information..."
 p4d -V -r $P4ROOT
 
 # Start server with initial IPv4 configuration
-echo "Starting Perforce server..."
+echo "Starting $NAME Perforce server on P4PORT: $P4PORT..."
 
 # Try to start the server
 if ! p4dctl start -t p4d "$NAME"; then

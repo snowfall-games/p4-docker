@@ -40,16 +40,18 @@ RUN \
 # Default Environment
 ARG NAME=snowfall-perforce
 ARG P4NAME=snowfall-main
-ARG P4PORT=1666
 ARG P4USER=admin
 ARG P4PASSWD=SnowfallGames!
 ARG P4CASE=-C0
 ARG P4CHARSET=utf8
+ARG PORT=1666
+ARG P4PORT=tcp6:[::]:1666
 
 # Dynamic Environment
 ENV NAME=$NAME \
   P4NAME=$P4NAME \
   P4PORT=$P4PORT \
+  PORT=$PORT \
   P4USER=$P4USER \
   P4PASSWD=$P4PASSWD \
   P4CASE=$P4CASE \
@@ -69,8 +71,7 @@ ENV P4JOURNAL=$P4CKP/journal \
   P4LOG=$P4ROOT/logs/log \
   P4FILESYS=NFS
 
-# Expose Perforce; TCP port and volumes
-EXPOSE $P4PORT
+EXPOSE $PORT
 
 # --------------------------------------------------------------------------------
 # Docker RUN
