@@ -27,6 +27,8 @@ ifconfig | grep -E 'inet6 [0-9a-f:]' | awk '{print $2}' | grep -v '::1'
 echo "MAC addresses:"
 ifconfig | grep -oE '([0-9a-f]{2}:){5}[0-9a-f]{2}'
 
+echo "127.0.0.1 p4-snowfall.railway.internal" >> /etc/hosts
+
 # Restore checkpoint if symlink latest exists
 if [ -L "$P4CKP/latest" ]; then
     echo "Restoring checkpoint..."
