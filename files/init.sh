@@ -19,14 +19,6 @@ mkdir -p "$P4DEPOTS"
 mkdir -p "$P4CKP"
 mkdir -p "$P4ROOT/logs"
 
-echo "Network interface information..."
-echo "IPv4 addresses:"
-ifconfig | grep -E 'inet [0-9]' | awk '{print $2}' | grep -v '127.0.0.1'
-echo "IPv6 addresses:"
-ifconfig | grep -E 'inet6 [0-9a-f:]' | awk '{print $2}' | grep -v '::1'
-echo "MAC addresses:"
-ifconfig | grep -oE '([0-9a-f]{2}:){5}[0-9a-f]{2}'
-
 echo "127.0.0.1 p4-snowfall.railway.internal" >> /etc/hosts
 
 # Restore checkpoint if symlink latest exists
