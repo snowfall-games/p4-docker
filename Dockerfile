@@ -40,7 +40,7 @@ RUN \
 # Default Environment
 ARG NAME=snowfall-perforce
 ARG P4NAME=snowfall-main
-ARG P4TCP=1666
+ARG P4PORT=1666
 ARG P4USER=admin
 ARG P4PASSWD=SnowfallGames!
 ARG P4CASE=-C0
@@ -49,15 +49,12 @@ ARG P4CHARSET=utf8
 # Dynamic Environment
 ENV NAME=$NAME \
   P4NAME=$P4NAME \
-  P4TCP=$P4TCP \
+  P4PORT=$P4PORT \
   P4USER=$P4USER \
   P4PASSWD=$P4PASSWD \
   P4CASE=$P4CASE \
   P4CHARSET=$P4CHARSET \
   JNL_PREFIX=$P4NAME
-
-# P4PORT can be set from Railway environment variable, defaults to P4TCP if not set
-ENV P4PORT=${P4PORT:-$P4TCP}
 
 # Base Environment
 ENV P4HOME=/p4
