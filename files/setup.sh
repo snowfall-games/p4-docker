@@ -28,13 +28,14 @@ fi
 
 # Install the Perforce license
 echo "Installing Perforce license..."
-ls "$P4ROOT/root"
 
 echo "Source license file at /usr/local/bin/license:"
 if [ -f "/usr/local/bin/license" ]; then
+    echo "License file at $P4ROOT/root/license:"
+    cat "$P4ROOT/root/license"
     echo "Installing license file..."
-    cp "/usr/local/bin/license" "$P4ROOT/license"
-    echo "License file installed at $P4ROOT/license"
+    cp "/usr/local/bin/license" "$P4ROOT/root/license"
+    echo "License file installed at $P4ROOT/root/license"
 else
     echo "WARNING: License file not found at /usr/local/bin/license"
 fi
