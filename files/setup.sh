@@ -17,13 +17,19 @@ ln -s "$P4ROOT/etc" /etc/perforce
 if ! p4dctl list 2>/dev/null | grep -q "$NAME"; then
     echo "Configuring new Perforce server: $NAME"
     # Use just the port number for initial configuration
-    if ! /opt/perforce/sbin/configure-helix-p4d.sh "$NAME" -n -p "$P4PORT" -r "$P4ROOT" -u "$P4USER" -P "${P4PASSWD}" --case "$P4CASE" --utf8; then
+    # Extract port number from P4PORT (e.g., "1666" from "tcp6:[::]:1666")
+    PORT_NUM=$(echo "$P4PORT" | grep -oE '[0-9]+$')
+    echo "Configuring server to listen on port: $PORT_NUM"
+    if ! /opt/perforce/sbin/configure-helix-p4d.sh "$NAME" -n -p "$PORT_NUM" -r "$P4ROOT" -u "$P4USER" -P "${P4PASSWD}" --case "$P4CASE" --utf8; then
         echo "ERROR: Failed to configure Perforce server"
         exit 1
     fi
     echo "Server configuration completed successfully"
 else
     echo "Server $NAME already configured"
+    
+    echo "Setting P4PORT to $P4PORT"
+    p4d -r "$P4ROOT" "-cset $NAME#P4PORT=$P4PORT"
 fi
 
 # Install the Perforce license
