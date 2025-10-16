@@ -31,8 +31,13 @@ else
     echo "Setting P4PORT to $P4PORT"
     p4d -r "$P4ROOT" "-cset $NAME#P4PORT=$P4PORT"
 
-    echo "Server Configuration:"
-    p4d -V -r $P4ROOT -cshow
+    echo "=== P4 Server Configuration ==="
+    if [ -f "$P4ROOT/etc/p4dctl.conf.d/$NAME.conf" ]; then
+        echo "Perforce server config file ($P4ROOT/etc/p4dctl.conf.d/$NAME.conf):"
+        cat "$P4ROOT/etc/p4dctl.conf.d/$NAME.conf"
+    else
+        echo "No Perforce server config file found at $P4ROOT/etc/p4dctl.conf.d/$NAME.conf"
+    fi
 fi
 
 # Install the Perforce license
