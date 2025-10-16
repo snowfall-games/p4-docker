@@ -37,15 +37,6 @@ else
 	/usr/local/bin/setup.sh
 fi
 
-# Check P4 logs after setup
-echo "=== P4 Server Logs After Setup ==="
-if [ -f "$P4ROOT/logs/log" ]; then
-    echo "Last 20 lines of P4 server log:"
-    tail -20 "$P4ROOT/logs/log"
-else
-    echo "No P4 log file found yet at $P4ROOT/logs/log"
-fi
-
 # Check if server is accessible
 echo "Checking if Perforce server is running..."
 

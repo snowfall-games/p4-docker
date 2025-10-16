@@ -22,15 +22,16 @@ rm -rf $P4ROOT/*
 ## Set server name
 echo $P4NAME > $P4ROOT/server.id
 
-## Install the Perforce license
-if [ -f "/usr/local/bin/license" ]; then
-    cp "/usr/local/bin/license" "$P4ROOT/license"
-    echo "License file installed at $P4ROOT/license"
-fi
-
 ## Restore and Upgrade Checkpoint
 p4d $P4CASE -r $P4ROOT -jr -z $P4CKP/latest
 p4d $P4CASE -r $P4ROOT -xu
+
+## Install the Perforce license AFTER checkpoint restoration
+## This ensures the new license overwrites any old license data from the checkpoint
+if [ -f "/usr/local/bin/license" ]; then
+    cp "/usr/local/bin/license" "$P4ROOT/license"
+    echo "License file installed at $P4ROOT/license (after checkpoint restoration)"
+fi
 
 ## Set key environment variables
 p4d $P4CASE -r $P4ROOT "-cset security=2"
