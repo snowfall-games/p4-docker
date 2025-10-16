@@ -27,15 +27,6 @@ COPY files/latest_checkpoint.sh /usr/local/bin/latest_checkpoint.sh
 COPY files/p4-typemap.txt /usr/local/bin/p4-typemap.txt
 COPY files/P4-p4-snowfall.railway.internal.license /usr/local/bin/license
 
-RUN \
-  chmod +x /usr/local/bin/restore.sh && \
-  chmod +x /usr/local/bin/setup.sh && \
-  chmod +x /usr/local/bin/init.sh && \
-  chmod +x /usr/local/bin/latest_checkpoint.sh
-
-# --------------------------------------------------------------------------------
-# Docker ENVIRONMENT
-# --------------------------------------------------------------------------------
 
 # Default Environment
 ARG NAME=snowfall-perforce
@@ -72,6 +63,12 @@ ENV P4JOURNAL=$P4CKP/journal \
   P4FILESYS=NFS
 
 EXPOSE $PORT
+
+RUN \
+  chmod +x /usr/local/bin/restore.sh && \
+  chmod +x /usr/local/bin/setup.sh && \
+  chmod +x /usr/local/bin/init.sh && \
+  chmod +x /usr/local/bin/latest_checkpoint.sh
 
 # --------------------------------------------------------------------------------
 # Docker RUN
