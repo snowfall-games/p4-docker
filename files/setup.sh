@@ -28,11 +28,33 @@ fi
 
 # Install the Perforce license
 echo "Installing Perforce license..."
+
+# Debug: Check what license files exist before installation
+echo "=== LICENSE DEBUG: Before installation ==="
+echo "Checking for existing license files..."
+if [ -f "$P4ROOT/license" ]; then
+    echo "Found existing license at $P4ROOT/license:"
+    cat "$P4ROOT/license"
+else
+    echo "No existing license file at $P4ROOT/license"
+fi
+
+echo "Source license file at /usr/local/bin/license:"
 if [ -f "/usr/local/bin/license" ]; then
+    cat "/usr/local/bin/license"
+    echo "Installing license file..."
     cp "/usr/local/bin/license" "$P4ROOT/license"
     echo "License file installed at $P4ROOT/license"
 else
     echo "WARNING: License file not found at /usr/local/bin/license"
+fi
+
+echo "=== LICENSE DEBUG: After installation ==="
+echo "Final license file content:"
+if [ -f "$P4ROOT/license" ]; then
+    cat "$P4ROOT/license"
+else
+    echo "ERROR: No license file found after installation!"
 fi
 
 echo "Showing license information..."
@@ -56,8 +78,27 @@ if ! p4dctl start -t p4d "$NAME"; then
     fi
     
     exit 1
+else
+    echo "Server started successfully"
+    
+    # Debug: Check what addresses Perforce detects
+    echo "=== P4 LICENSE DEBUG: Server addresses ==="
+    echo "Checking what IP and MAC addresses P4 detects..."
+    if P4PORT="$P4TCP" P4USER="$P4USER" timeout 10 p4 license -L 2>/dev/null; then
+        echo "Successfully got license address information"
+    else
+        echo "Could not get license address information (server may not be fully ready)"
+    fi
+    
+    # Debug: Check current P4 configuration
+    echo "=== P4 CONFIG DEBUG ==="
+    echo "Current P4 configuration:"
+    if P4PORT="$P4TCP" P4USER="$P4USER" timeout 10 p4 configure show 2>/dev/null; then
+        echo "Successfully got P4 configuration"
+    else
+        echo "Could not get P4 configuration (server may not be fully ready)"
+    fi
 fi
-echo "Server started successfully"
 
 # Wait for server to be ready, then reconfigure for IPv6
 sleep 5
