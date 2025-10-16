@@ -45,8 +45,8 @@ if ! p4dctl start -t p4d "$NAME"; then
     # Show P4 logs if they exist
     echo "=== P4 Server Logs ==="
     if [ -f "$P4ROOT/logs/log" ]; then
-        echo "Last 50 lines of $P4ROOT/logs/log:"
-        tail -50 "$P4ROOT/logs/log"
+        echo "Last 20 lines of $P4ROOT/logs/log:"
+        tail -20 "$P4ROOT/logs/log"
     else
         echo "No log file found at $P4ROOT/logs/log"
     fi
