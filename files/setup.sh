@@ -52,7 +52,7 @@ else
 fi
 
 echo "Showing license information..."
-p4d -V -r $P4ROOT
+p4d -V -r $P4ROOT/root
 
 # Start server with initial IPv4 configuration
 echo "Starting $NAME Perforce server on P4PORT: $P4PORT..."
