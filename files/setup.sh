@@ -54,6 +54,10 @@ fi
 echo "Showing license information..."
 p4d -V -r $P4ROOT/root
 
+# Upgrade database schema if needed (required when restoring from older backups)
+echo "Upgrading database schema if needed..."
+p4d -r "$P4ROOT/root" -xu
+
 # Start server with initial IPv4 configuration
 echo "Starting $NAME Perforce server on P4PORT: $P4PORT..."
 
