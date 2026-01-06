@@ -1,24 +1,26 @@
 TypeMap:
-    binary+w //....exe
-    binary+w //....dll
-    binary+w //....lib
-    binary+w //....app
-    binary+w //....dylib
-    binary+w //....stub
-    binary+w //....ipa
+    binary+wS //....exe
+    binary+wS //....dll
+    binary+wS //....lib
+    binary+wS //....app
+    binary+wS //....dylib
+    binary+wS //....stub
+    binary+wS //....ipa
     binary //....pdf
     binary //....rtf
-    binary //....bmp
-    binary //....ico
-    binary //....gif
-    binary //....jpeg
-    binary //....jpg
-    binary //....pcx
-    binary //....png
-    binary //....psd
-    binary //....tga
-    binary //....tiff
-    binary //....tif
+    binary+S3 //....bmp
+    binary+S3 //....ico
+    binary+S3 //....gif
+    binary+S3 //....jpeg
+    binary+S3 //....jpg
+    binary+S3 //....pcx
+    binary+S3 //....png
+    binary+S3 //....psd
+    binary+S3 //....tga
+    binary+S3 //....tiff
+    binary+S3 //....tif
+    binary+S3 //....spp
+    binary+S3 //....dds
     binary //....bik
     binary //....7z
     binary //....rar
@@ -27,6 +29,18 @@ TypeMap:
     binary+l //....upk
     binary+l //....udk
     binary+l //....ubulk
+    binary+l //....fbx
+    binary+l //....obj
+    binary+l //....blend
+    binary+l //....max
+    binary+l //....mb
+    binary+l //....ma
+    binary+l //....wav
+    binary+l //....mp3
+    binary+l //....ogg
+    binary+l //....flac
+    binary+l //....ttf
+    binary+l //....otf
     text //....cs
     text //....cpp
     text //....h
@@ -38,10 +52,21 @@ TypeMap:
     text //....txt
     text //....md
     text //....verse
+    text //....json
+    text //....xml
+    text //....yaml
+    text //....ini
+    text //....uproject
+    text //....uplugin
+    text //....hlsl
+    text //....glsl
+    text //....usf
+    text //....ush
+    text //....py
     text+w //....vcproj
     text+w //....vcxproj
     text+w //....vcxproj.filters
     text+w //....sln
-    text+w //....suo
+    text+wS //....suo
     text+w //....xcodeproj
-    text+w //....xcworkspace
+    text+wS //....xcworkspace

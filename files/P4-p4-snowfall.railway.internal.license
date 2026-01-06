@@ -18,15 +18,15 @@
 # The order of entries in this file is not important, but the values
 # must be preserved literally.
 
-License:	E448979E22CAFF00471BC46C8EDCB977
+License:	780AD4DEE09C0F209443A6D624E5161E
 
-License-Expires:	1765843200	# 2025/12/15
+License-Expires:	1791936000	# 2026/10/13
 
 Support-Expires:	1791936000	# 2026/10/13
 
 Customer:	Snowfall Games
 
-IPaddress:	p4-snowfall.railway.internal
+IPaddress:	p4-snowfall.railway.internal:1666
 
 Users:	5
 
