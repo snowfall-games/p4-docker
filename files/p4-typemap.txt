@@ -61,7 +61,7 @@ TypeMap:
     text //....ts
     text //....uproject
     text //....uplugin
-    text //....licens
+    text //....license
     text //....hlsl
     text //....glsl
     text //....usf
