@@ -57,6 +57,7 @@ TypeMap:
     text //....xml
     text //....yaml
     text //....ini
+    text //....tcl
     text //....uproject
     text //....uplugin
     text //....hlsl
