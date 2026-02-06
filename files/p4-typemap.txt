@@ -59,6 +59,7 @@ TypeMap:
     text //....ini
     text //....tcl
     text //....ts
+    text //....rtp_desc
     text //....uproject
     text //....uplugin
     text //....license
@@ -68,6 +69,7 @@ TypeMap:
     text //....ush
     text //....usda
     text //....py
+    text //....java
     text+w //....vcproj
     text+w //....vcxproj
     text+w //....vcxproj.filters
