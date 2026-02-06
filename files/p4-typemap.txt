@@ -64,6 +64,7 @@ TypeMap:
     text //....glsl
     text //....usf
     text //....ush
+    text //....usda
     text //....py
     text+w //....vcproj
     text+w //....vcxproj
