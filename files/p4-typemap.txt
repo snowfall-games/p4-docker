@@ -6,6 +6,7 @@ TypeMap:
     binary+wS //....dylib
     binary+wS //....stub
     binary+wS //....ipa
+    binary+wS //....3
     binary //....pdf
     binary //....rtf
     binary+S3 //....bmp
