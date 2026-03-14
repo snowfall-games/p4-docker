@@ -40,6 +40,18 @@ set_depot_address() {
     )
 }
 
+# remove_depot_address: Removes the Address field from a depot spec (reverts to local storage).
+remove_depot_address() {
+    local depot_name="$1"
+    (
+        set -o pipefail
+        p4 depot -o "$depot_name" | awk '
+            /^Address:/ { next }
+            { print }
+        ' | p4 depot -i
+    )
+}
+
 MIGRATION_FAILED=0
 
 # Process each depot (process substitution keeps loop in main shell)
@@ -54,7 +66,7 @@ while read -r line; do
 
     # Skip depot types without local file storage
     case "$type" in
-        spec|remote|trait)
+        spec|unload|remote|trait)
             continue
             ;;
     esac
@@ -63,14 +75,28 @@ while read -r line; do
     current_address=$(p4 depot -o "$name" | grep "^Address:" | sed 's/^Address:[[:space:]]*//')
 
     if echo "$current_address" | grep -q "^s3,"; then
-        # Depot already on S3 — refresh credentials
-        echo "Refreshing S3 credentials for depot: $name"
-        if ! set_depot_address "$name"; then
-            echo "ERROR: Failed to refresh credentials for depot: $name"
-            MIGRATION_FAILED=1
+        # Depot has S3 Address — check if S3 actually has data for this depot
+        s3_file_count=$(aws s3 ls "s3://${S3_BUCKET}/${name}/" --endpoint-url "$S3_ENDPOINT" 2>/dev/null | head -1 | wc -l)
+
+        if [ "$s3_file_count" -eq 0 ]; then
+            # S3 is empty for this depot — revert to local storage
+            echo "WARNING: Depot $name has S3 Address but no data in S3 — reverting to local storage"
+            if remove_depot_address "$name"; then
+                echo "Reverted depot to local storage: $name"
+            else
+                echo "ERROR: Failed to revert depot: $name"
+                MIGRATION_FAILED=1
+            fi
+        else
+            # S3 has data — refresh credentials
+            echo "Refreshing S3 credentials for depot: $name"
+            if ! set_depot_address "$name"; then
+                echo "ERROR: Failed to refresh credentials for depot: $name"
+                MIGRATION_FAILED=1
+            fi
         fi
     else
-        # Local depot — migrate to S3
+        # Local depot — migrate to S3 if it has files
         local_path="${P4DEPOTS}/${name}"
 
         if [ -d "$local_path" ] && [ "$(ls -A "$local_path" 2>/dev/null)" ]; then
@@ -108,12 +134,7 @@ while read -r line; do
                 echo "Removed local files for: $name"
             fi
         else
-            # No local files but not yet on S3 — just set the Address
-            echo "Setting S3 Address for depot: $name"
-            if ! set_depot_address "$name"; then
-                echo "ERROR: Failed to set S3 Address for depot: $name"
-                MIGRATION_FAILED=1
-            fi
+            echo "Skipping depot $name — no local files at $local_path"
         fi
     fi
 done < <(p4 depots)
