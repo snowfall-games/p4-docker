@@ -62,4 +62,7 @@ EOF
 echo "Updating typemap..."
 p4 typemap -i < /usr/local/bin/p4-typemap.txt
 
+# Migrate local depots to S3 if configured
+/usr/local/bin/s3-migrate.sh
+
 echo "Perforce server initialization completed successfully!"
