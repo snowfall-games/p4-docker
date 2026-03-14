@@ -12,6 +12,23 @@ fi
 
 echo "S3 depot migration starting..."
 
+# Resolve the actual depot root from Perforce (may differ from $P4DEPOTS env var).
+# The value can be a relative path (e.g. ../archives) resolved from P4ROOT.
+P4ROOT_ACTUAL=$(p4 info | grep "^Server root:" | sed 's/^Server root:[[:space:]]*//')
+DEPOT_ROOT_RAW=$(p4 configure show server.depot.root 2>/dev/null | grep "^server.depot.root=" | sed 's/^server.depot.root=//' | sed 's/ .*//')
+
+if [ -n "$DEPOT_ROOT_RAW" ]; then
+    if [[ "$DEPOT_ROOT_RAW" = /* ]]; then
+        DEPOT_ROOT="$DEPOT_ROOT_RAW"
+    else
+        # Relative path — resolve from P4ROOT
+        DEPOT_ROOT=$(cd "$P4ROOT_ACTUAL" && cd "$DEPOT_ROOT_RAW" 2>/dev/null && pwd)
+    fi
+else
+    DEPOT_ROOT="$P4ROOT_ACTUAL"
+fi
+echo "Depot root: $DEPOT_ROOT"
+
 # Configure AWS CLI credentials
 export AWS_ACCESS_KEY_ID="$S3_ACCESS_KEY_ID"
 export AWS_SECRET_ACCESS_KEY="$S3_SECRET_ACCESS_KEY"
@@ -97,7 +114,7 @@ while read -r line; do
         fi
     else
         # Local depot — migrate to S3 if it has files
-        local_path="${P4DEPOTS}/${name}"
+        local_path="${DEPOT_ROOT}/${name}"
 
         if [ -d "$local_path" ] && [ "$(ls -A "$local_path" 2>/dev/null)" ]; then
             echo "Migrating depot to S3: $name"
