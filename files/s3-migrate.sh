@@ -52,9 +52,9 @@ while read -r line; do
         continue
     fi
 
-    # Skip non-local depot types
+    # Skip depot types without local file storage
     case "$type" in
-        spec|unload|archive|stream|remote|graph|tangent|trait)
+        spec|remote|trait)
             continue
             ;;
     esac
