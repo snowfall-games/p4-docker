@@ -33,6 +33,7 @@ COPY files/latest_checkpoint.sh /usr/local/bin/latest_checkpoint.sh
 COPY files/p4-typemap.txt /usr/local/bin/p4-typemap.txt
 COPY files/P4-p4-snowfall.railway.internal.license /usr/local/bin/license
 COPY files/s3-migrate.sh /usr/local/bin/s3-migrate.sh
+COPY files/maintenance.sh /usr/local/bin/maintenance.sh
 
 # S3 Storage Environment (Railway Bucket)
 ENV S3_ENDPOINT="" \
@@ -82,7 +83,8 @@ RUN \
   chmod +x /usr/local/bin/setup.sh && \
   chmod +x /usr/local/bin/init.sh && \
   chmod +x /usr/local/bin/latest_checkpoint.sh && \
-  chmod +x /usr/local/bin/s3-migrate.sh
+  chmod +x /usr/local/bin/s3-migrate.sh && \
+  chmod +x /usr/local/bin/maintenance.sh
 
 # --------------------------------------------------------------------------------
 # Docker RUN

@@ -39,7 +39,9 @@ export AWS_DEFAULT_REGION="${S3_REGION:-auto}"
 aws configure set default.s3.addressing_style path
 
 # Perforce S3 Address format (exported so awk can read via ENVIRON)
-export S3_ADDR_LINE="Address: s3,url:${S3_ENDPOINT},bucket:${S3_BUCKET},accessKey:${S3_ACCESS_KEY_ID},secretKey:${S3_SECRET_ACCESS_KEY}"
+# URL includes bucket path for path-style addressing (required by Railway Buckets / S3-compatible stores).
+# Region set to "auto" for SigV4 signing compatibility.
+export S3_ADDR_LINE="Address: s3,url:${S3_ENDPOINT}/${S3_BUCKET},bucket:${S3_BUCKET},region:auto,accessKey:${S3_ACCESS_KEY_ID},secretKey:${S3_SECRET_ACCESS_KEY}"
 
 # set_depot_address: Sets the Address field on a depot spec.
 # Strips any existing Address line, then injects the new one after the Type line.
